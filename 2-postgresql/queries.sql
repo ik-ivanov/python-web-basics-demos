@@ -1,6 +1,8 @@
 -- https://github.com/ik-ivanov/python-web-basics-demos
 -- original: https://github.com/Minkov/python-web-basics-demos/blob/main/postgres_demos/demos.sql
 
+-- IMPORTANT: comment out the queries first and run them one by one
+
 CREATE TABLE IF NOT EXISTS public.categories
 (
     id integer NOT NULL DEFAULT nextval('categories_id_seq'::regclass),

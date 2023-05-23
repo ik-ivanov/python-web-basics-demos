@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load tags %}
+
+
+{% block page_content %}
+
+
+<h1>{{ title | upper }}</h1>
+<p>{{ random_int }}</p>
+<p>{{ nested.second }}</p>
+<p>{{ student_age }}</p>
+
+<div>
+    Menu: {{ title | lower }}
+    Menu length: {{ title | lower | center:"15" }}
+</div>
+
+<section>
+    <div>{{ students|join:", " }}</div>
+    <div>{{ now|date:"Y-m-d" }}</div>
+</section>
+
+<section>
+    <h2>IFS</h2>
+    <div>{{ students|join:", " }}</div>
+    {% if students_second %}
+        <div>{{ students_second|join:", " }}</div>
+    {% else %}
+        <div>No students</div>
+    {% endif %}
+</section>
+
+<section>
+    <h2 class="some_class">FOR loops</h2>
+    <ul>
+    {% for student in students %}
+        <li>{{ student }}</li>
+    {% endfor %}
+    </ul>
+    <ul>
+    {% for student in students_second %}
+        <li>{{ student }}</li>
+        {% empty %}
+        <li>No students (empty tag)</li>
+    {% endfor %}
+    </ul>
+    <ul>
+    {% for student in students %}
+        {% ifchanged student %}
+            <li class="student_class">{{ student  }}</li>
+        {% endifchanged %}
+    {% endfor %}
+    </ul>
+</section>
+
+<section>
+    {# This is a comment for DEVS #}
+    {% comment %}
+     This is
+     a multiline
+     comment
+    {% endcomment %}
+    <!-- HTML native comment (visible for user) -->
+    <div>{{ csrf_token }}</div>
+    <div>
+        {% csrf_token %}
+    </div>
+</section>
+
+<section>
+    <div>Without filter: {{ numbers }}</div>
+    <div>With odd (custom filter): {{ numbers|odd }} </div>
+</section>
+
+<section>
+    <div>NAME: {{ name|default:"This is default value" }}</div>
+</section>
+
+<section>
+    <ul class="list-group">
+        {% for student in students_obj %}
+            <li class="list-group-item">{% show_student_info student=student %}</li>
+            <li class="list-group-item">All students: {% show_student_names student student student %}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <ul>
+        {% for student in students_obj %}
+            <li>{% fancy_student student %}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section>
+    {% include 'examples/partials/another.html' %}
+</section>
+{% endblock %}

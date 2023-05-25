@@ -9,6 +9,7 @@ TL;DR Additional resources, summary of the lecture, homework ideas
 5. Sending emails with Django: [First](https://www.accordbox.com/blog/how-to-develop-responsive-html-email-in-django/) and [Second](https://www.youtube.com/watch?v=A-7vGF_pEss)
 6. Docker + Django, mission possible: [Article](https://hackernoon.com/streamlining-your-django-development-environment-with-docker-containers)
 7. Django all in one [article](https://www.digitalocean.com/community/tutorials/working-with-django-templates-static-files)
+8. Django + React.js [article](https://www.digitalocean.com/community/tutorials/build-a-to-do-application-using-django-and-react)
 
 # Lecture summary
    1. MTV - model, template, view

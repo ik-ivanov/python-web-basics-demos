@@ -8,6 +8,36 @@
     <title>Document</title>
 </head>
 <body>
-<div>it works</div>
+<div style="display: flex; justify-content: space-between">
+    <div>
+        {% for employee in employees %}
+            <div>
+                {{ employee.first_name }} {{ employee.last_name }} {{ employee.age }}
+                <span>
+                    <a href="{% url 'department_details' pk=employee.department.pk slug=employee.department.slug %}">
+                        {{ employee.department.name }}
+                    </a>
+                </span>
+
+                <a href="{% url 'delete_employee' pk=employee.pk %}">Delete</a>
+                <a href="{{ employee.get_absolute_url }}">Details</a>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        {% for employee in employees2 %}
+            <div>
+                {{ employee.first_name }} {{ employee.last_name }} {{ employee.age }} - {{ employee.department.name }}
+            <a href="{% url 'delete_employee' pk=employee.pk %}">Delete</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div style="display: block">
+    Fun department: {{ fun_department.name }}
+</div>
+<div>
+    Salary example: {{ salary.amount }} / Without taxes: {{ salary.get_without_taxes_amount }} / With currency {{ salary.with_currency }}
+</div>
 </body>
 </html>

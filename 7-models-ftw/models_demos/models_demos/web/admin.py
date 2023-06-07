@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee, NullBlankDemo, Department, Project, Profile
+from .models import Employee, NullBlankDemo, Department, Project, Profile, Salary
 
 
 # Register your models here.
@@ -13,10 +13,10 @@ class EmployeeAdmin(admin.ModelAdmin):
     list_filter = ['level']
     search_fields = ('first_name', 'last_name', 'email')
     # fields = [('first_name', 'last_name'), 'email', 'age', 'level']
-    fieldsets = (
-        ('Personal Info!', {'fields': ('first_name', 'middle_name', 'last_name')}),
-        ('HR STUFF', {'fields': ('is_manager', 'email', 'level')})
-    )
+    # fieldsets = (
+    #     ('Personal Info!', {'fields': ('first_name', 'middle_name', 'last_name')}),
+    #     ('HR STUFF', {'fields': ('is_manager', 'email', 'level')})
+    # )
 
 @admin.register(NullBlankDemo)
 class NullBlankDemoAdmin(admin.ModelAdmin):
@@ -25,7 +25,7 @@ class NullBlankDemoAdmin(admin.ModelAdmin):
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Project)
@@ -34,4 +34,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Salary)
+class SalaryAdmin(admin.ModelAdmin):
     pass

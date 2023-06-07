@@ -1,4 +1,8 @@
 from django.db import models
+from django.urls import reverse
+from django.core.exceptions import ValidationError
+
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # DJANGO ORM -
@@ -12,12 +16,27 @@ from django.db import models
 #     project_id = models.ForeignKey('Project', on_delete=models.CASCADE)
 #     created_on = models.DateTimeField(auto_now_add=True)
 
+def above_eighteen(value):
+    if value < 18:
+        raise ValidationError("Age must be above 18.")
+    return value
 
-class Department(models.Model):
+
+class ModifiedMixin(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Department(ModifiedMixin, models.Model):
     name = models.CharField(max_length=40)
+    slug = models.SlugField(max_length=40, unique=True)
 
     def __str__(self):
         return f"{self.pk} {self.name}"
+
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
@@ -25,6 +44,13 @@ class Project(models.Model):
 
 
 class Employee(models.Model):
+
+    class Meta:
+        # normal ordering
+        # reverse ordering (descending) - use - in front of field name
+        ordering = ['-first_name']
+
+
     LEVEL_JUNIOR = 'jur'
     LEVEL_MIDDLE = 'mid'
     LEVEL_SENIOR = 'sen'
@@ -50,11 +76,9 @@ class Employee(models.Model):
 
     description = models.TextField(default="Should be filled in.")
 
-    age = models.IntegerField()  # - +
-    experience = models.PositiveIntegerField()
+    age = models.IntegerField(validators=[above_eighteen, ])  # - +
+    experience = models.PositiveIntegerField()  # 0 - 100
     birth_date = models.DateField()
-    created_on = models.DateTimeField(auto_now_add=True)  # only first time
-    updated_on = models.DateTimeField(auto_now=True)  # each time update
 
     is_manager = models.BooleanField(default=None)
 
@@ -72,6 +96,10 @@ class Employee(models.Model):
 
     def __str__(self):
         return f"ID: {self.pk}; Names: {self.full_name}"
+
+    def get_absolute_url(self):
+        # http://127.0.0.1:8000/details/5
+        return reverse('employee_details', kwargs={'pk': self.pk})
 
 
 class Profile(models.Model):
@@ -94,3 +122,18 @@ class NullBlankDemo(models.Model):
     blank_null = models.IntegerField(blank=True, null=True)
     # can't be blank, can't be null
     default = models.IntegerField(blank=False, null=False)
+
+
+class Salary(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Salaries"
+
+    amount = models.PositiveIntegerField()
+
+    def get_without_taxes_amount(self):
+        return self.amount - (self.amount * 0.2)
+
+    @property
+    def with_currency(self):
+        return f"{self.amount} USD"

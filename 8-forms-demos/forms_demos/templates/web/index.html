@@ -6,8 +6,47 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <style>
+        form .helptext {
+            color: green;
+        }
+
+    </style>
+
 </head>
 <body>
+{% if name %}
+    <h1>Hello {{ name }}</h1>
+{% else %}
+    <h1>Please enter your name</h1>
+{% endif %}
+
+<p>CSRF TOKEN: {{ csrf_token }}</p>
+
+<form action="{% url 'index' %}" method="post">
+    {% csrf_token %}
+    {% for form_field in form %}
+        <div class="ADSDASD">
+            {{ form_field.label_tag }}
+            {{ form_field }}
+            {% if form_field.help_text %}
+                <span class="helptext custom-text">{{ form_field.help_text }}</span>
+            {% endif %}
+            {% if form_field.errors %}
+                <span style="color: red">{{ form_field.errors }}</span>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit">Submit</button>
+    {# <input type="submit" value="Submit form">#}
+</form>
+
+<div>
+    {% for person in people %}
+        <p>{{ person.id }} {{ person.name }}</p>
+    {% endfor %}
+</div>
 
 </body>
 </html>

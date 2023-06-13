@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form action="{% url 'index' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Submit</button>
+</form>
+
+{% for todo in todos %}
+    <p>{{ todo.text }}</p>
+    {% if todo.url_link %}
+        <img src="{{ todo.url_link }}" alt="">
+        <p>{{ todo.url_link  }}</p>
+    {% endif %}
+
+{% endfor %}
+
+
+<div>
+
+    {% if not user.is_authenticated %}
+    <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+{% endif %}
+</div>
+
+</body>
+</html>

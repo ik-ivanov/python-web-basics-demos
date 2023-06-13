@@ -1,0 +1,17 @@
+{% extends 'web/base.html' %}
+
+{% block page_content %}
+    <form action="{% url 'create pet' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create"/>
+    </form>
+
+    <div>
+        <h1>List all photos for Lora</h1>
+        {% for photo in photos_with_lora %}
+            <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+        {% endfor %}
+    </div>
+
+{% endblock %}

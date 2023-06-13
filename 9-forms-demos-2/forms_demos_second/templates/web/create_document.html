@@ -1,0 +1,21 @@
+{% load static %}
+{% extends 'web/base.html' %}
+
+{% block page_content %}
+<form action="{% url 'create document' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit to create document object">
+</form>
+
+<div>
+    <h2>Document objects</h2>
+    {% for document in documents %}
+          <div>{{ document.id }}"</div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block page_specific_staticfiles %}
+    {# place your page specific static here #}
+{% endblock %}

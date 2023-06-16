@@ -1,7 +1,7 @@
 # photos app - models
 from django.db import models
 from django.core.validators import MinLengthValidator
-from .validators import image_size_validator_5mb
+from .validators import image_size_validator_5mb, text_underscore_validator
 
 from petstagram.pets.models import Pet
 
@@ -28,12 +28,12 @@ class Photo(models.Model):
         blank=False,
         null=False,
         validators=(image_size_validator_5mb,),
-        upload_to="mediafiles/photos"
+        upload_to="photos"
     )
     # optional
     description = models.TextField(
         max_length=300,
-        validators=(MinLengthValidator(10),),
+        validators=(MinLengthValidator(10), text_underscore_validator,),
         blank=True,
         null=True
     )

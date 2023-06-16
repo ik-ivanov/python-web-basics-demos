@@ -47,7 +47,7 @@
                                 </a>
 
                                 <!-- Link to Delete Pet Photo Page -->
-                                <a href="#">
+                                <a href="{% url 'photo delete' photo.pk %}">
                                     <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">
                                 </a>
                             </div>
@@ -62,7 +62,7 @@
                 <!-- Start Pet Photo -->
                 <div class="imgBx" id="place the id of the photo here">
                     <!-- Pet Photo -->
-                    <img src="{% static 'images/axolotl.jpeg' %}" alt="post" class="cover">
+                    <img src="{{ photo.pet_image.url }}" alt="post" class="cover">
                 </div>
                 <!-- End Pet Photo -->
 
@@ -166,6 +166,7 @@
                     <h5 class="postTime">{{ photo.date_of_publication }}</h5>
 
                     <!-- Start Comments Section -->
+                    {% for comment in photo.comment_set.all %}
                     <div class="comments">
                         <div class="top">
                             <div class="userDetails">
@@ -183,13 +184,14 @@
                                         <!-- User First and/or Last Name or username-->
                                         <a href="">Steven Ivanov</a>
                                         <!-- User Comment -->
-                                        - OMG where can i get one
+                                        {{ comment.comment_text }}
                                     </p>
                                 </div>
                                 <span>Sept. 20, 2022, 5:02 p.m.</span>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <!-- End Comments Section -->
                 </div>
 
@@ -202,13 +204,11 @@
                     </div>
 
                     <!-- Start Add Comments Form -->
-                    <form method="post" action="#">
-                        <label for="id_body">Body:</label>
-                        <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"
-                                  required="" id="id_body"></textarea>
-                        <!-- Post Comments Button -->
-                        <button type="submit">Post</button>
-                    </form>
+                        <form method="post" action="{% url 'comment' photo_id=photo.pk %}">
+                            {{ comment_form }}
+                            {% csrf_token %}
+                            <button type="submit">Post</button>
+                        </form>
                     <!-- End Add Comments Form -->
 
                 </div>

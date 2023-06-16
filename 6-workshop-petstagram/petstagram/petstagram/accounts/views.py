@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from petstagram.pets.models import Pet
 
 # Create your views here.
 
@@ -12,7 +13,13 @@ def login_user(request):
 
 
 def profile_details(request, pk):
-    return render(request, 'accounts/profile-details-page.html')
+    pets = Pet.objects.all()
+
+    context = {
+        "pets": pets,
+    }
+
+    return render(request, 'accounts/profile-details-page.html', context=context)
 
 
 def profile_edit(request, pk):

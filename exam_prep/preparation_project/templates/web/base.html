@@ -1,0 +1,39 @@
+{% load static %}
+{% load tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Music App</title>
+    <!-- Static Load -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+
+<body>
+<div id="box">
+
+    {# This way we can avoid adding the Profile to the context each time! A custom tag #}
+    {% custom_navigation %}
+
+    <!-- Main Content -->
+    {% block main_content_no_profile %}
+    {% endblock %}
+
+    {% block main_content_profile %}
+    {% endblock %}
+
+    {% block other_pages %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            &copy;SoftUni Team 2022. All rights reserved.
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+</div>
+</body>
+</html>
